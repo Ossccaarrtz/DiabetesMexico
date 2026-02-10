@@ -1,14 +1,25 @@
 import "./App.css";
+import MexicoMap from "./components/MexicoMap";
 
 function App() {
+  const scrollToMap = () => {
+    const mapElement = document.getElementById("mapa");
+    if (mapElement) {
+      mapElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="app">
-      <Hero />
+      <Hero onExploreClick={scrollToMap} />
+      <section id="mapa">
+        <MexicoMap />
+      </section>
     </div>
   );
 }
 
-function Hero() {
+function Hero({ onExploreClick }) {
   return (
     <section className="hero">
       <div className="hero-content">
@@ -24,7 +35,7 @@ function Hero() {
         </p>
 
         <div className="hero-actions">
-          <button>Explorar el mapa</button>
+          <button onClick={onExploreClick}>Explorar el mapa</button>
         </div>
       </div>
     </section>
