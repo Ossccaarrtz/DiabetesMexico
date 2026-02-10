@@ -1,0 +1,22 @@
+# Node / React
+node_modules/
+frontend/node_modules/
+
+# Python
+backend/.venv/
+__pycache__/
+*.pyc
+
+# Datos
+data/raw/
+data/interim/
+data/processed/
+
+# Modelos
+backend/app/ml/artifacts/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.env
