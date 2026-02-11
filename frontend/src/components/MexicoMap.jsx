@@ -74,11 +74,24 @@ function MexicoMap() {
                                 : "#FCBBA1"; // Rojo muy claro
     };
 
+    // Normalizar nombres de estados del GeoJSON para coincidir con la API
+    const normalizeStateName = (geoJsonName) => {
+        const map = {
+            "Distrito Federal": "Ciudad de México",
+            "México": "Estado de México",
+            "Coahuila de Zaragoza": "Coahuila",
+            "Michoacán de Ocampo": "Michoacán",
+            "Veracruz de Ignacio de la Llave": "Veracruz"
+        };
+        return map[geoJsonName] || geoJsonName;
+    };
+
     // Estilo de cada estado
     const style = (feature) => {
-        const stateName = feature.properties.name || feature.properties.estado;
+        const rawStateName = feature.properties.name || feature.properties.estado;
+        const stateName = normalizeStateName(rawStateName);
         const detecciones = statesData[stateName] || 0;
-        const isHovered = hoveredState === stateName;
+        const isHovered = normalizeStateName(hoveredState) === stateName;
         const isSelected = selectedState === stateName;
 
         return {
@@ -92,12 +105,13 @@ function MexicoMap() {
 
     // Eventos de cada estado
     const onEachFeature = (feature, layer) => {
-        const stateName = feature.properties.name || feature.properties.estado;
+        const rawStateName = feature.properties.name || feature.properties.estado;
+        const stateName = normalizeStateName(rawStateName);
 
         layer.on({
-            mouseover: () => setHoveredState(stateName),
+            mouseover: () => setHoveredState(rawStateName), // Keep raw name for matching in style
             mouseout: () => setHoveredState(null),
-            click: () => setSelectedState(stateName),
+            click: () => setSelectedState(stateName), // Use normalized name for data display
         });
     };
 
